@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    public function index(){
+        return view('admin.index');
+    }
+
     public function profile(){
         return view('admin.profile');
     }
@@ -19,5 +23,8 @@ class HomeController extends Controller
     }
     public function exchange_id_request(){
 		return view('admin.exchange_id_req');
+	}
+    public function admin_support(){
+		return view('admin.support');
 	}
 }
