@@ -7,6 +7,7 @@
 		<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('admin/images/logo.png') }}">
 		<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('admin/images/logo.png') }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="{{asset('admin/styles/style.css')}}">
         <link rel="stylesheet" href="{{asset('admin/styles/media.css')}}">
@@ -24,6 +25,7 @@
 		<div class="main-container">
 			@yield('content')
 		</div>
+		
 		<script src="{{ asset('admin/vendors/scripts/core.js') }}"></script>
   		<script src="{{asset('admin/vendors/scripts/script.min.js')}}"></script>
 	</body>

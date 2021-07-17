@@ -29,6 +29,7 @@
                         <li><a href="{{ route('admin.live-casino') }}">Live Casino</a></li>
                         <li><a href="{{ route('admin.table-game') }}">Tables</a></li>
                         <li><a href="{{ route('admin.ludo-game') }}">Ludo</a></li>
+                        <li><a href="{{ route('admin.add-game') }}">Add Game</a></li>
                     </ul>
                 </li>
                 <li>

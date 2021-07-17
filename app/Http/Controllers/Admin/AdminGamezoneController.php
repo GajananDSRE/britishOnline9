@@ -22,4 +22,7 @@ class AdminGamezoneController extends Controller
 	public function ludo_game(){
 		return view('admin.gamezone.ludo_game');
 	}	
+	public function add_game(){
+		return view('admin.gamezone.add_game');
+	}
 }

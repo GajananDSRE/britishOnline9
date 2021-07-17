@@ -1,8 +1,20 @@
 @extends('admin.layouts.master')
 @section('content')
 <div class="pd-ltr-20">
-    <div class="title pb-20">
-        <h2 class="h3 mb-0">This Week Overview</h2>
+    <div class="min-height-200px">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 ">
+                    <h3>Dashboard</h3>
+                </div>
+            <div class="col-md-6 col-sm-12 text-right">
+                <div class="dropdown">
+                    <a class="btn btn-primary" href="{{ route('admin.add-exchange') }}" role="button" >
+                        Add Exchange
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row pb-10">
         <div class="col-xl-3 col-lg-3 col-md-6 mb-20">

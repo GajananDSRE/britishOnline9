@@ -50,12 +50,14 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
           
 	Route::group(['namespace' => 'Admin', 'as' => 'admin.'],function(){  
         Route::get('/',['as' => 'index', 'uses' => 'HomeController@index']);
+        Route::get('/add-exchange',['as' => 'add-exchange', 'uses' => 'HomeController@add_exchange']);
 		Route::get('/real-worli',['as' => 'real-worli', 'uses' => 'WorliMatkaController@realWorli']);
 		Route::get('/indian-casino',['as' => 'indian-casino', 'uses' => 'AdminGamezoneController@indian_casino']);
 		Route::get('/live-casino',['as' => 'live-casino', 'uses' => 'AdminGamezoneController@live_casino']);
 		Route::get('/casino-userlist',['as' => 'casino-userlist', 'uses' => 'AdminGamezoneController@all_casino_userlist']);
 		Route::get('/table-game',['as' => 'table-game', 'uses' => 'AdminGamezoneController@table_game']);
 		Route::get('/ludo-game',['as' => 'ludo-game', 'uses' => 'AdminGamezoneController@ludo_game']);
+		Route::get('/add-game',['as' => 'add-game', 'uses' => 'AdminGamezoneController@add_game']);
 		Route::get('/exchange-id-req',['as' => 'exchange-id-req', 'uses' => 'HomeController@exchange_id_request']);
 		Route::get('/client-list',['as' => 'client-list', 'uses' => 'ClientController@client_list']);
 		Route::get('/account-management',['as' => 'account-management', 'uses' => 'BankingController@account_management']);
@@ -66,7 +68,12 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
 		Route::get('/request-list',['as' => 'request-list', 'uses' => 'BankingController@request_list']);
         Route::get('/profile',['as' => 'profile', 'uses' => 'HomeController@profile']);
         Route::get('/password',['as' => 'password', 'uses' => 'HomeController@password']);
+
+        /* Poster */
         Route::get('/poster',['as' => 'poster', 'uses' => 'PosterController@index']);
+        Route::get('/slider',['as' => 'slider', 'uses' => 'PosterController@slider']);
+        Route::post('/create-slider',['as' => 'create-slider', 'uses' => 'PosterController@createFrontSlider']);
+
         Route::get('/rules',['as' => 'rules', 'uses' => 'RuleController@index']);
         Route::get('/createId',['as' => 'createId', 'uses' => 'HomeController@createId']);
         Route::get('/wallet',['as' => 'wallet', 'uses' => 'WalletController@wallet']);

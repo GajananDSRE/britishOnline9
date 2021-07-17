@@ -9,6 +9,9 @@ class HomeController extends Controller
     public function index(){
         return view('admin.index');
     }
+    public function add_exchange(){
+        return view('admin.add_exchange');
+    }
 
     public function profile(){
         return view('admin.profile');
