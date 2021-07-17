@@ -7,6 +7,7 @@ use DB,Exception,Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests\SignInRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 trait AuthenticatesUsers
 {
@@ -28,31 +29,27 @@ trait AuthenticatesUsers
     public function login(SignInRequest $request)
     {
         $userid = $request->userid;
-        $input = $request->all();
         $user = DB::table('users')->where('userid', $userid)->first();
-            if(!empty($user))
-            {
-                $checkUser = $this->checkUserAuthenticated($user);
-                if($checkUser['errorCode'])
-                {
-                    return response()->json(['authentication_required' => true, 'errorStatus' => true, 'message' => $checkUser['message']]); 
-                }else
-                {
-                        $creds['userid'] = $user->userid;
-                        $creds['password'] = $input['password'];
-
-                        if($this->guard()){
-                            //$request->session()->regenerate();
-                            return response()->json(['authentication_required' => false, 'errorStatus' => false, 'message' => "You are logged in successfully!"]);
-                        }else
-                        {
-                            return response()->json(['authentication_required' => true, 'errorStatus' => true, 'message' => "User id or password invalid"]);
-                        }
+        if(!empty($user)){
+            $checkUser = $this->checkUserAuthenticated($user);
+            if($checkUser['errorCode']){
+                return redirect()->back()->withErrors($checkUser['message'])->withInput();
+            }else{
+                    $creds = $request->only(['userid', 'password']);
+                    $remember_me  = ( !empty( $request->remember_me ) )? TRUE : FALSE;
+                    if (Auth::attempt($creds, $remember_me)){
+                        $request->session()->regenerate();
+                        $auth = Auth::user();
+                        $user = User::where(["userid" => $creds['userid']])->first();
+                        Auth::login($user, $remember_me);
+                        return redirect()->to('/')->withSuccess("You are logged in successfully!");
+                    }else{
+                        return redirect()->back()->withErrors("User id or password invalid")->withInput();
+                    }
                 }
-            }else
-            {
-                return response()->json(['authentication_required' => true, 'errorStatus' => true, 'message' => "User id or password invalid"]);
-            }
+        }else{
+            return redirect()->back()->withErrors("User id or password invalid")->withInput(); 
+        }
     }
     /**
      * check user invalid or not  for our domain.
@@ -70,38 +67,19 @@ trait AuthenticatesUsers
             $user_parent_site_arr = array_column($user_parent_arr,'site');
             array_push($user_parent_lock_arr,$user->is_lock_user);
             if(in_array(1,$user_parent_lock_arr)){
-                    throw new Exception("Your ID is locked!");
-            }
-            $host = request()->getHost();
-            $host =  count(explode('.', $host)) == 3 ? explode('.', $host)[1] : (count(explode('.', $host)) == 2 ? explode('.', $host)[0] : "");
-            $host = strtolower($host);
-            if($constant_local_domain != $host){
-                 if(in_array(9,$user_parent_role_arr)){
-                        $user_parent_site_arr = array_values(array_filter($user_parent_site_arr));
-                        print_r($user_parent_site_arr);
-                        if(isset($user_parent_site_arr[0]) && strtolower($user_parent_site_arr[0]) != $host){
-                            throw new Exception("User id or password invalid");
-                        }
-                    }else{
-                       if($constant_main_domain != $host){
-                            throw new Exception("User id or password invalid");
-                        } 
-                    }
+                throw new Exception("Your ID is locked!");
             }
             return array('errorCode' => false);
         }catch(Exception $e){
             return array('errorCode' => true,'message' => $e->getMessage());
         } 
     }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard();
+    public function logout(Request $request)
+    { 
+        Session::flush();
+        Auth::logout();
+        return redirect()->to('login')->withSuccess("Logged out successfully");
     }
+
 
 }

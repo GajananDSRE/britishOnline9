@@ -14,8 +14,19 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+        // if (! $request->expectsJson()) {
+        //     return route('login');
+        // }
+         if (! $request->expectsJson()) {
+
+            if(strpos($request->url(), 'ag.') !== false) {
+                return route('admin.auth.login');
+            }else{
+                return route('users.auth.login');
+            }
+        }else{
+            $auth_response_arr = array('success' => true, 'message' => 'Authenticate Failed', 'errorStatus' => true, 'authentication_required' => true);
+            return response()->json($auth_response_arr);
         }
     }
 }

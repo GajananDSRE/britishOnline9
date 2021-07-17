@@ -52,14 +52,14 @@
 											maxlength: 20
 										},
 									password: {
-											required: "Username is required",
-											maxlength: "First name cannot be more than 20 characters",
+											required: true,
+											minlength: 6,
 										},
 								},
 					messages:   {
 									userid: {
 											required: "Username is required",
-											minlength: "Username must be at least 4 number",
+											maxlength: "Username must be at least 4 number",
 									},
 									password: {
 											required: "Password number is required",
