@@ -11,7 +11,7 @@
         <div class="sidebar-menu">
             <ul id="accordion-menu">
                 <li>
-                    <a href="./index.html" class="dropdown-toggle no-arrow">
+                    <a href="{{ route('admin.index') }}" class="dropdown-toggle no-arrow">
                         <i class="fa fa-tachometer micon " aria-hidden="true"></i><span class="mtext">Dashboard</span>
                     </a>
                 </li>
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="./clientlist.html" class="dropdown-toggle no-arrow">
+                    <a href="{{ route('admin.client-list') }}" class="dropdown-toggle no-arrow">
                         <i class="fa fa-list-ol micon" aria-hidden="true"></i><span class="mtext">Client List</span>
                     </a>
                 </li>
@@ -46,12 +46,12 @@
                         <i class="fa fa-cogs  micon" aria-hidden="true"></i><span class="mtext">Banking</span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="./your Account.html">Your Account</a></li>
-                        <li><a href="./Deposit.html">Deposit</a></li>
-                        <li><a href="./withdraw.html">Withdraw</a></li>
-                        <li><a href="./downline request.html">Downline Request List</a></li>
-                        <li><a href="./your request.html">Your Request List</a></li>
-                        <li><a href="./setting.html">Setting</a></li>
+                        <li><a href="{{ route('admin.account-management') }}">Your Account</a></li>
+                        <li><a href="{{ route('admin.deposite-request') }}">Deposit</a></li>
+                        <li><a href="{{ route('admin.withdrawl-request') }}">Withdraw</a></li>
+                        <li><a href="{{ route('admin.downline-request-list') }}">Downline Request List</a></li>
+                        <li><a href="{{ route('admin.request-list') }}">Your Request List</a></li>
+                        <li><a href="{{ route('admin.time-management') }}">Setting</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -62,16 +62,16 @@
                         <li><a href="{{route('admin.poster')}}">Add Poster</a></li>
                         <li><a href="{{route('admin.rules')}}">Add Rules</a></li>
                         <li><a href="{{route('admin.createId')}}">Create ID</a></li>
-                        <li><a href="./wallet.html">Wallet</a></li>
+                        <li><a href="{{route('admin.wallet')}}">Wallet</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="Book Detail.html" class="dropdown-toggle no-arrow">
+                    <a href="{{route('admin.book-details-one')}}" class="dropdown-toggle no-arrow">
                         <i class="fa fa-flag micon" aria-hidden="true"></i><span class="mtext">Report</span>
                     </a>
                 </li>
                 <li>
-                    <a href="Support.html" class="dropdown-toggle no-arrow">
+                    <a href="{{route('admin.admin-support')}}" class="dropdown-toggle no-arrow">
                         <i class="fa fa-commenting-o micon" aria-hidden="true"></i><span class="mtext">Support</span>
                     </a>
                 </li>

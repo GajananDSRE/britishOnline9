@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
+    public function index(){
+        return view('admin.index');
+    }
+
     public function profile(){
         $user = Auth::User();
         return view('admin.profile',['user'=>$user]);
@@ -50,5 +54,8 @@ class HomeController extends Controller
     }
     public function exchange_id_request(){
 		return view('admin.exchange_id_req');
+	}
+    public function admin_support(){
+		return view('admin.support');
 	}
 }
