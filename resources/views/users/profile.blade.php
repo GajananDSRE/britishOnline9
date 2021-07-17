@@ -55,7 +55,9 @@
                     </div>
                     <div class="buttons-wrap justify-content-between">
                         <div class="follow-wrap">
-                            <a href="{{url('/login')}}" class="follow">Logout</a>
+                            <a href="Logout" class="follow" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                            {{ Form::open(array('url' => 'logout','id'=>'logout-form','style'=>'display:none'))}}
+                            {{ Form::close() }}
                         </div>
                     </div>
                 </div>

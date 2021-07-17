@@ -24,25 +24,24 @@
                         <a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil"></i></a>
                         <img src="{{ asset('admin/vendors/images/photo1.jpg') }}" alt="" class="avatar-photo">
                     </div>
-                    <h5 class="text-center h5 mb-0">Ross C. Lopez</h5>
+                    <h5 class="text-center h5 mb-0">{{ $user->name }}</h5>
                     <div class="profile-info">
                         <h5 class="mb-20 h5 text-blue">Contact Information</h5>
                         <ul>
                             <li>
-                                <span>Email Address:</span>
-                                abc@gmailcom<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
+                                <span>Email Address:</span>{{ $user->email }}<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
                             </li>
                             <li>
                                 <span>Phone Number:</span>
-                                1233456789<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
+                                {{ $user->contact }}<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
                             </li>
                             <li>
                                 <span>Whatsapp Number:</span>
-                                1233456789<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
+                                {{ $user->whatsapp_no }}<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
                             </li>
                             <li>
                                 <span>Country:</span>
-                                Xyz<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
+                                {{ $user->country }}<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
                             </li>
                         </ul>
                     </div>

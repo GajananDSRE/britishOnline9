@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Services\Admin\AuthenticatesUsers;
+use App\Models\User;
 
 class LoginController extends Controller
 {

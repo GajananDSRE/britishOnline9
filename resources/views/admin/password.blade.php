@@ -23,27 +23,33 @@
                     <div class="login-title">
                         <h4 class="text-center text-primary">Password Change</h4>
                     </div>
-                    <form>
-                        <div class="input-group custom">
-                            <input type="text" class="form-control form-control-lg" placeholder="Password">
-                            <div class="input-group-append custom">
-                                <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
-                            </div>
-                        </div>
-                        <div class="input-group custom">
-                            <input type="text" class="form-control form-control-lg" placeholder="Conform Password">
-                            <div class="input-group-append custom">
-                                <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="input-group mb-0">
-                                    <a class="btn btn-primary btn-lg btn-block" href="index.html">Submit</a>
+                    {{ Form::open(array('url' => 'password','autocomplete'=>'off','id'=>'change-password')) }}
+                            <div class="input-group custom">
+                                {{ Form::password('current_password',['class'=> 'form-control form-control-lg','placeholder'=>'Current Password'])}}
+                                <div class="input-group-append custom">
+                                    <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                            <div class="input-group custom">
+                                {{ Form::password('password',['class'=> 'form-control form-control-lg','placeholder'=>'New Password'])}}
+                                <div class="input-group-append custom">
+                                    <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
+                                </div>
+                            </div>
+                            <div class="input-group custom">
+                                {{ Form::password('conf-password',['class'=> 'form-control form-control-lg','placeholder'=>'Conform Password'])}}
+                                <div class="input-group-append custom">
+                                    <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="input-group mb-0">
+                                        {{ Form::submit('Submit',['class' => 'btn btn-primary btn-lg btn-block'])}}
+                                    </div>
+                                </div>
+                            </div>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
