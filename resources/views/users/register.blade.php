@@ -42,7 +42,7 @@
 		  {{ Form::text('whatsapp_no','',['placeholder'=>'Whatsapp No. *']) }}
 		</div>
 		<div class="input-group">
-		  {{ Form::password('password',['placeholder'=>'Password']) }}
+		  {{ Form::password('password',['placeholder'=>'Password','id'=>'password']) }}
 		</div>
 		<div class="input-group">
 		  {{ Form::password('confirmPassword',['placeholder'=>'Conform Password']) }}
@@ -76,12 +76,12 @@
 								},
 								password: {
 									required: true,
-									minlength: 5
+									minlength: 6
 								},
-								// confirmPassword: {
-								// 	required: true,
-								// 	equalTo: "#password"
-								// }
+								confirmPassword: {
+									required: true,
+									equalTo: "#password"
+								}
 							},
 				messages:   {
 								name: {
@@ -102,12 +102,12 @@
 								},
 								password: {
 									required: "Password is required",
-									minlength: "Password must be at least 5 characters"
+									minlength: "Password must be at least 6 characters"
 								},
-								// confirmPassword: {
-								// 	required:  "Confirm password is required",
-								// 	equalTo: "Password and confirm password should same"
-								// }
+								confirmPassword: {
+									required:  "Confirm password is required",
+									equalTo: "Password and confirm password should same"
+								}
 							}
 			});
 		});

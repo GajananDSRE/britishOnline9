@@ -11,7 +11,7 @@
         <div class="sidebar-menu">
             <ul id="accordion-menu">
                 <li>
-                    <a href="{{ route('admin.index') }}" class="dropdown-toggle no-arrow">
+                    <a href="{{ route('admin.index') }}" class="dropdown-toggle no-arrow active">
                         <i class="fa fa-tachometer micon " aria-hidden="true"></i><span class="mtext">Dashboard</span>
                     </a>
                 </li>
@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="dropdown ">
-                    <a href="javascript:;" class="dropdown-toggle active">
+                    <a href="javascript:;" class="dropdown-toggle ">
                         <i class="fa fa-cogs  micon" aria-hidden="true"></i><span class="mtext">Banking</span>
                     </a>
                     <ul class="submenu">

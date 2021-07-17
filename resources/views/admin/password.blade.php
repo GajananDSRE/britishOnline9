@@ -23,6 +23,22 @@
                     <div class="login-title">
                         <h4 class="text-center text-primary">Password Change</h4>
                     </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if(Session::has("success"))
+                            <div class="alert alert-success">
+                                {{Session::get("success")}}
+                            </div>
+                        @elseif(Session::has("failed"))
+                            {{Session::get("failed")}}
+                        @endif
                     {{ Form::open(array('url' => 'password','autocomplete'=>'off','id'=>'change-password')) }}
                             <div class="input-group custom">
                                 {{ Form::password('current_password',['class'=> 'form-control form-control-lg','placeholder'=>'Current Password'])}}
@@ -31,13 +47,13 @@
                                 </div>
                             </div>
                             <div class="input-group custom">
-                                {{ Form::password('password',['class'=> 'form-control form-control-lg','placeholder'=>'New Password'])}}
+                                {{ Form::password('password',['class'=> 'form-control form-control-lg','placeholder'=>'New Password','id'=>'password'])}}
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                                 </div>
                             </div>
                             <div class="input-group custom">
-                                {{ Form::password('conf-password',['class'=> 'form-control form-control-lg','placeholder'=>'Conform Password'])}}
+                                {{ Form::password('confirmPassword',['class'=> 'form-control form-control-lg','placeholder'=>'Conform Password'])}}
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                                 </div>
@@ -56,3 +72,4 @@
     </div>
 </div>
 @endsection
+

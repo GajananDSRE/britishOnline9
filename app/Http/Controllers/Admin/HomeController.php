@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePassword;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
@@ -11,8 +11,6 @@ use Illuminate\Http\Request;
 use DB,Exception,Validator;
 use App\Models\User;
 use Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -29,24 +27,24 @@ class HomeController extends Controller
         return view('admin.password');
     }
 
-    public function changePassword(Request $request){
+    public function changePassword(ChangePassword $request){
         $auth = Auth::user();
         $current_password = $request->current_password;
         if (password_verify($current_password, $auth->password) == false) {
-            return response()->json(['error' => "Invalid password !"]);
+            return redirect()->back()->withErrors("Invalid password !")->withInput();
         }
         $password = $request->password;
         if ($current_password == $password) {
-            return response()->json(['error' => "Old password does not accepted !"]);
+            return redirect()->back()->withErrors("Old password does not accepted !")->withInput();
         }
         if ($password == null && $password == '') {
-            return response()->json(['error' => "Invalid password !"]);
+            return redirect()->back()->withErrors("Invalid password !")->withInput();
         }
         $auth->update([
             'password' => Hash::make($password),
             'is_fresh' => 0
         ]);
-        return response()->json(['success' => 'Password changed successfully']);
+        return redirect()->to('password')->withSuccess("Password changed successfully");
     }
 
     public function createId(){

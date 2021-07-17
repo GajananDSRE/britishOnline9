@@ -16,7 +16,8 @@
 		<link rel="stylesheet" href="{{asset('admin/styles/core.css')}}">
 		<link rel="stylesheet" href="{{asset('admin/vendors/styles/icon-font.min.css')}}">
 		<!-- <link rel="stylesheet" href="{{asset('admin/styles/font-awesome.min.css')}}"> -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{{asset('admin/styles/bootstrap.min.css')}}"> 
 	</head>
 	<body>
 		@include('admin.includes.header')
@@ -26,5 +27,8 @@
 		</div>
 		<script src="{{ asset('admin/vendors/scripts/core.js') }}"></script>
   		<script src="{{asset('admin/vendors/scripts/script.min.js')}}"></script>
+  		<script src="{{asset('js/popper.min.js')}}"></script>
+		<script src="{{asset('js/jquery.validate.min.js')}}"></script>
+		<script src="{{asset('admin/vendors/scripts/custome.js')}}"></script>
 	</body>
 </html>

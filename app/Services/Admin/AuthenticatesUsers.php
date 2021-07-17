@@ -32,9 +32,7 @@ trait AuthenticatesUsers
     {
     	$userid = $request->userid;
         $user = DB::table('users')->where('userid', $userid)->first();
-
         if(!empty($user)){
-
             $checkUser = $this->checkUserAuthenticated($user);
             if($checkUser['errorCode']){
                 return redirect()->back()->withErrors($checkUser['message'])->withInput();

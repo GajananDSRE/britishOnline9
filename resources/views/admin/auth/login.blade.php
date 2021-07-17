@@ -101,7 +101,7 @@
 					messages:   {
 									userid: {
 											required: "Username is required",
-											maxlength: "Username must be at least 4 number",
+											maxlength: "Username max 20 charector",
 									},
 									password: {
 											required: "Password number is required",
