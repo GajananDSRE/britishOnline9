@@ -58,11 +58,8 @@ class PosterController extends Controller
            ]);
     }
 
-    public function editFrontSlider(){
-
-    }
-
-    public function updateFrontSlider(){
+    public function updateFrontSlider(Request $request, $id){
+        dd($request->all());
 
     }
 }
