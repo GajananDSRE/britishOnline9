@@ -76,7 +76,10 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
         Route::get('/poster',['as' => 'poster', 'uses' => 'PosterController@index']);
         Route::get('/slider',['as' => 'slider', 'uses' => 'PosterController@slider']);
         Route::post('/create-slider',['as' => 'create-slider', 'uses' => 'PosterController@createFrontSlider']);
+        Route::get('/edit-slider/{id}',['as' => 'edit-slider', 'uses' => 'PosterController@editslider']);
         Route::post('/update-slider/{id}',['as' => 'update-slider', 'uses' => 'PosterController@updateFrontSlider']);
+        Route::match(['get','post'],'/delete-slider',['as' => 'delete-slider', 'uses' => 'PosterController@delete']);
+
 
         Route::get('/rules',['as' => 'rules', 'uses' => 'RuleController@index']);
         Route::get('/createId',['as' => 'createId', 'uses' => 'HomeController@createId']);

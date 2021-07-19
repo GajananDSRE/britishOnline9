@@ -40,6 +40,7 @@
                         </div>
                     </div>
                     <h5 class="text-center h5 mb-0">{{ $user->name }}</h5>
+                    <input type="text" value="{{ $user->id }}"/>
                     <div class="profile-info">
                         <h5 class="mb-20 h5 text-blue">Contact Information</h5>
                         <ul>
@@ -52,7 +53,7 @@
                             </li>
                             <li>
                                 <span>Whatsapp Number:</span>
-                                {{ $user->whatsapp_no }}<a href="modal" data-toggle="modal"  class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
+                                {{ $user->whatsapp_no }}<a href="modal" data-toggle="modal"  onclick="getNumber({{$user->whatsapp_no}})" class="edit-avatar"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a>
                             </li>
                             <li>
                                 <span>Country:</span>
@@ -80,3 +81,9 @@
     </div>
 </div>
 @endsection
+
+<script>
+    function getNumber(e){
+        alert(e);
+    }
+    </script>
