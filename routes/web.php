@@ -34,7 +34,7 @@ Route::group(['middleware' => ['web'],'domain' => 'britishonline9.dl'], function
         Route::get('/wallet',['as' => 'wallet', 'uses' => 'PaymentController@wallet']);
   
         // Authentication Routes...
-        Route::group(['namespace' => 'Auth', 'as' => 'auth.'],function(){
+        Route::group(['namespace' => 'Auth', 'as' => 'auth.'],function()   {
             Route::get('login',['as' => 'login', 'uses' => 'LoginController@showLoginForm'])->middleware('guest');
             Route::post('login',['as' => 'login', 'uses' => 'LoginController@login'])->middleware('guest');
 
@@ -47,11 +47,10 @@ Route::group(['middleware' => ['web'],'domain' => 'britishonline9.dl'], function
 });
 
 Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], function () {
-    // Route::get('/', function () {
-    //     return view('admin.index');
-    // });
           
-	Route::group(['namespace' => 'Admin', 'as' => 'admin.'],function(){  
+	Route::group(['namespace' => 'Admin', 'as' => 'admin.'],function(){ 
+        Route::group(['middleware' => ['auth']],function(){
+            
         Route::get('/',['as' => 'index', 'uses' => 'HomeController@index']);
         Route::get('/add-exchange',['as' => 'add-exchange', 'uses' => 'HomeController@add_exchange']);
 		Route::get('/real-worli',['as' => 'real-worli', 'uses' => 'WorliMatkaController@realWorli']);
@@ -89,7 +88,8 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
         Route::get('/daily-pl',['as' => 'daily-pl', 'uses' => 'ReportController@dailypl']);
         Route::get('/finalsheet',['as' => 'finalsheet', 'uses' => 'ReportController@finalsheet']);
         Route::get('/admin-support',['as' => 'admin-support', 'uses' => 'HomeController@admin_support']);
-
+        
+        });
         Route::group(['namespace' => 'Auth', 'as' => 'auth.'],function(){
             Route::get('login',['as' => 'login', 'uses' => 'LoginController@showLoginForm'])->middleware('guest');
             Route::post('login',['as' => 'login', 'uses' => 'LoginController@login'])->middleware('guest');
