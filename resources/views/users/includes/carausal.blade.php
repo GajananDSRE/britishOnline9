@@ -17,6 +17,7 @@
 
 <script>
 $(document).ready(function() {
+	var base_url = window.location.origin;
 	$.ajax({
 		type: 'GET',
 		url: "{{ route('front-slider') }}",
@@ -28,7 +29,7 @@ $(document).ready(function() {
 			var sliders = data.sliders;
 			for (i = 0; i< sliders.length; i++)
 			{
-				$('<div class="carousel-item"><img class="d-block w-100" src="'+sliders[i].image+'" alt="'+sliders[i].title+'"><div class="carousel-caption"></div></div>').appendTo('.carousel-inner');
+				$('<div class="carousel-item"><img class="d-block w-100" src="'+base_url+ '/images/front_slider/'+sliders[i].image+'" alt="'+sliders[i].title+'"><div class="carousel-caption"></div></div>').appendTo('.carousel-inner');
 				$('<li data-target="#carouselExampleIndicators" data-slide-to="'+i+'" "></li>').appendTo('.carousel-indicators');
 			}
 			$('.carousel-item').first().addClass('active');

@@ -22,8 +22,8 @@ class HomeController extends Controller
     }
 
     public function profile(){
-        $user = Auth::User();
-        return view('admin.profile',['user'=>$user]);
+        $users = Auth::User();
+        return view('admin.profile',['users'=>$users]);
     }
 
     public function showPassword(){

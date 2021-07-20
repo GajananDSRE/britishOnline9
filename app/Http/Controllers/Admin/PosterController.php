@@ -14,8 +14,7 @@ class PosterController extends Controller
     }
 
     public function slider(){
-        $sliders = DB::table('sliders')->get();
-        
+        $sliders = DB::table('sliders')->get();        
         return view('admin.slider', compact('sliders'));
     }
 

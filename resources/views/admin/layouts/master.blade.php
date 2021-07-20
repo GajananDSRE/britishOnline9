@@ -20,15 +20,17 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{asset('admin/styles/bootstrap.min.css')}}"> 
 	</head>
-	<body>
+	<body>	
+	<script src="{{asset('admin/vendors/scripts/jquery-3.2.1.min.js')}}"></script>
 		@include('admin.includes.header')
-		@include('admin.includes.sidebar')
+		@include('admin.includes.sidebar')		
 		<div class="main-container">
 			@yield('content')
 		</div>
-		
+				
+		<script src="{{ asset('js/app.js') }}"></script>
 		<script src="{{ asset('admin/vendors/scripts/core.js') }}"></script>
-  		<script src="{{asset('admin/vendors/scripts/script.min.js')}}"></script>
+  		<script src="{{asset('admin/vendors/scripts/script.min.js')}}"></script>				
   		<script src="{{asset('js/popper.min.js')}}"></script>
 		<script src="{{asset('js/jquery.validate.min.js')}}"></script>
 		<script src="{{asset('admin/vendors/scripts/custome.js')}}"></script>

@@ -162,7 +162,7 @@
 
 @endsection
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="{{asset('admin/vendors/scripts/jquery-3.2.1.min.js')}}"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
 
@@ -188,7 +188,7 @@ $(document).ready(function() {
       });
 
 	$('#submit').click(function(){
-		  var formdata = new FormData(document.getElementById("slider-upload-form"));
+		var formdata = new FormData(document.getElementById("slider-upload-form"));
 		$.ajax({
             url:'{{ route("admin.create-slider") }}',
             method:'POST',
@@ -223,20 +223,20 @@ $(document).ready(function() {
 	});
 
 	$('.edit-slider').on("click", function(event) {
-    $("#edit-slider").modal('show');
-    var slider_id = $(this).data('id');
-    $.ajax({
-        url: "edit-slider/" + slider_id,
-        type: 'GET',
-        dataType: 'json',
-    }).done(function(response) {
-		console.log(response.slide_data.id);
-		$("#slider_id").val(response.slide_data.id);
-        $("#image").val(response.slide_data.image);
-        $("#title").val(response.slide_data.title);
-        $("#sort_order").val(response.slide_data.sort_order);
-    });
-});
+		$("#edit-slider").modal('show');
+		var slider_id = $(this).data('id');
+		$.ajax({
+			url: "edit-slider/" + slider_id,
+			type: 'GET',
+			dataType: 'json',
+		}).done(function(response) {
+			console.log(response.slide_data.id);
+			$("#slider_id").val(response.slide_data.id);
+			$("#image").val(response.slide_data.image);
+			$("#title").val(response.slide_data.title);
+			$("#sort_order").val(response.slide_data.sort_order);
+		});
+	});
 
 });
 
@@ -248,30 +248,30 @@ $(document).ready(function() {
 		var url = "{{ route('admin.update-slider', ":id") }}";
 		url = url.replace(':id', id);	
     	$.ajax({ 
-		url:url,
-		method: "POST",
-		processData: false,
-      	data: formdata,
-      	dataType: 'json',
-	  	contentType: false,
-      	success: function (data) {
-			if(data.error)
-                {
-                    var error_html = '';
-                    for(var count = 0; count < data.error.length; count++)
-                    {
-                        error_html += '<p>'+data.error[count]+'</p>';
-                    }
-                    $('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
-                }
-                else
-                {
+			url:url,
+			method: "POST",
+			processData: false,
+			data: formdata,
+			dataType: 'json',
+			contentType: false,
+			success: function (data) {
+				if(data.error)
+				{
+					var error_html = '';
+					for(var count = 0; count < data.error.length; count++)
+					{
+						error_html += '<p>'+data.error[count]+'</p>';
+					}
+					$('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
+				}
+				else
+				{
 					setTimeout(function() {
 					$('#edit-slider').modal('hide');
 					}, 100);
-                    $('#result').html('<div class="alert alert-success">'+data.success+'</div>');
-                }
-      	}
+					$('#result').html('<div class="alert alert-success">'+data.success+'</div>');
+				}
+			}
   		});
 	});
 
