@@ -49,8 +49,8 @@
 						<td>{{$slider->title}}</td>
 						<td>{{$slider->image}}</td>
 						<td style="font-size: 20px;">
-							<i class="fa fa-edit" data-toggle="modal" data-target="#editSlider_{{$slider->id}}" data-id="{{ $slider->id }}"></i>
-							<i class="fa fa-trash" aria-hidden="true"></i>
+						<a href="javascript:;"  data-id="{{ $slider->id }}" class="btn btn-default edit-slider"><i class="fa fa-edit"></i></a>
+						<a href="" data-id="{{ $slider->id }}" class="deleteSlider"><i class="fa fa-trash" aria-hidden="true"></i></a>
 						</td>
 					</tr>
 					<?php $i++;?>
@@ -119,8 +119,7 @@
 </div>
 
 <!--edit Moadal -->
-@foreach($sliders as $slider) 
-<div class="modal hide fade" id="editSlider_{{$slider->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal hide fade" id="edit-slider"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg modal-dialog-centered">    
       	<!-- Modal content-->
       	<div class="modal-content">
@@ -132,49 +131,45 @@
 				<!-- Bootstrap Select Start -->
 				<form id="slider-edit-form" enctype="multipart/form-data" name="slider-edit-form">
 					{{csrf_field()}}
-					<input type="hidden" id="slider_id" name="slider_id" value="{{$slider->id}}">
-					<table class="table" id="editdynamic_field">
+					<input type="hidden" id="slider_id" name="slider_id">
+					<table class="table">
 						<tr>
 							<th>Image</th>
 							<th>Title</th>
 							<th>Sort Order</th>
 						</tr>
 						<tr>
-							<td><input type="file" name="file" id="image" data-rule-required="true" value="{{$slider->image}}" accept="image/*"  /></td>
-							<td><input type="text" name="title" id="title" data-rule-required="true" placeholder="Title" value="{{$slider->title}}" class="form-control"/></td>
-							<td><input type="text" name="sort_order" id="sort_order" data-rule-required="true" v-model="sort_order_increment" value="{{$slider->sort_order}}" placeholder="Sort Order" class="form-control"/></td>
+							<td><input type="file" name="file"  data-rule-required="true" accept="image/*"  /></td>
+							<td><input type="text" name="title" id="title" data-rule-required="true" placeholder="Title" value="" class="form-control"/></td>
+							<td><input type="text" name="sort_order" id="sort_order" data-rule-required="true" v-model="sort_order_increment" placeholder="Sort Order" class="form-control"/></td>
 							
 						</tr>
 					</table>
 					<div class="form-group">
-						<img src="'images/slider/{{$slider->image}}'" class="rounded img-responsive" width="100" height="100"> 
-					</div>
-					<div class="row text-center mt-3" style="justify-content: center;">
-						<div class="col-md-6 col-sm-12">
-							<button type="button" class="btn btn-outline-primary" id="update" >Update</button>
-						</div>
-					</div>
+						<img src="'images/slider/'" class="rounded img-responsive" id="image" width="100" height="100"> 
+					</div>					
 				</form>		
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<div class="col-md-6 col-sm-12">
+					<button type="button" class="btn btn-outline-primary" id="update">Update</button>
+					<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+				</div>				
 			</div>
 		</div> 	   
 	</div>
 </div>
-@endforeach 
-
-
-
-
 
 @endsection
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="{{asset('admin/vendors/scripts/jquery-3.2.1.min.js')}}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
 
 <script>
 	
 $(document).ready(function() {
+
 	var i = 2;
 	$("#addRow").click(function() {
 		$('#dynamic_field').append('<tr id="row'+i+'"><td><input type="file" data-rule-required="true" name="data['+i+'][file]" id="imageinput'+ i +'" accept="image/*"/></td><td><input type="text" name="data['+i+'][title]" placeholder="Title" data-rule-required="true" class="form-control"/></td><td><input type="text" name="data['+i+'][sort_order]" data-rule-required="true" placeholder="Sort Order" value="'+i+'" class="form-control"/></td><td><button type="button" name="remove" id="'+ i +'" class="btn btn-danger btn_remove"><i class="fa fa-minus" aria-hidden="true"></i></button></td></tr>');
@@ -192,68 +187,8 @@ $(document).ready(function() {
           }
       });
 
-	//   $('#update').click(function(){
-	// 	var id = $(this).val();
-	// 	  alert(id);
-	// 	  var formdata = new FormData(document.getElementById("slider-edit-form"));
-	// 	$.ajax({
-    //         url:route('admin.update-slider/' + id),
-    //         method:'POST',
-	// 		processData: false,
-    //         data: formdata,
-    //         dataType:'json',
-	// 		contentType: false,
-    //         // beforeSend:function(){
-    //         //     $('#submit').attr('disabled','disabled');
-    //         // },			
-	// 		success:function(data)
-    //         {
-    //             if(data.error)
-    //             {
-    //                 var error_html = '';
-    //                 for(var count = 0; count < data.error.length; count++)
-    //                 {
-    //                     error_html += '<p>'+data.error[count]+'</p>';
-    //                 }
-    //                 $('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
-    //             }
-    //             else
-    //             {
-	// 				setTimeout(function() {
-	// 				$('#addSlider').modal('hide');
-	// 				}, 100);
-    //                 $('#result').html('<div class="alert alert-success">'+data.success+'</div>');
-    //             }
-				
-    //         }
-	// 	});
-	// });
-
-
-	///
-	$('#update').click(function() {				
-		var id = $("#slider_id").val();console.log(id);
-		var formdata = new FormData(document.getElementById("slider-edit-form"));	
-    	$.ajax({
-		url:"{{ route('admin.update-slider', "+ id +") }}",
-		method: "POST",
-		processData: false,
-      	data: formdata,
-      	dataType: 'json',
-	  	contentType: false,
-      	success: function (data) {
-          
-        //   $('#companydata').trigger("reset");
-        //   $('#practice_modal').modal('hide');
-         // window.location.reload(true);
-      }
-  });
-});
-
-	//update slider
-
 	$('#submit').click(function(){
-		  var formdata = new FormData(document.getElementById("slider-upload-form"));
+		var formdata = new FormData(document.getElementById("slider-upload-form"));
 		$.ajax({
             url:'{{ route("admin.create-slider") }}',
             method:'POST',
@@ -286,9 +221,103 @@ $(document).ready(function() {
             }
 		});
 	});
-	
+
+	$('.edit-slider').on("click", function(event) {
+		$("#edit-slider").modal('show');
+		var slider_id = $(this).data('id');
+		$.ajax({
+			url: "edit-slider/" + slider_id,
+			type: 'GET',
+			dataType: 'json',
+		}).done(function(response) {
+			console.log(response.slide_data.id);
+			$("#slider_id").val(response.slide_data.id);
+			$("#image").val(response.slide_data.image);
+			$("#title").val(response.slide_data.title);
+			$("#sort_order").val(response.slide_data.sort_order);
+		});
+	});
 
 });
+
+$(document).ready(function() {
+	$("#update").on("click", function() {
+		// alert('hiii');
+		var id = $("#slider_id").val();console.log(id);
+		var formdata = new FormData(document.getElementById("slider-edit-form"));
+		var url = "{{ route('admin.update-slider', ":id") }}";
+		url = url.replace(':id', id);	
+    	$.ajax({ 
+			url:url,
+			method: "POST",
+			processData: false,
+			data: formdata,
+			dataType: 'json',
+			contentType: false,
+			success: function (data) {
+				if(data.error)
+				{
+					var error_html = '';
+					for(var count = 0; count < data.error.length; count++)
+					{
+						error_html += '<p>'+data.error[count]+'</p>';
+					}
+					$('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
+				}
+				else
+				{
+					setTimeout(function() {
+					$('#edit-slider').modal('hide');
+					}, 100);
+					$('#result').html('<div class="alert alert-success">'+data.success+'</div>');
+				}
+			}
+  		});
+	});
+
+	$(".deleteSlider").click(function(){
+	var id = $(this).data('id');
+	var url = "{{ route('admin.delete-slider') }}";
+
+	// swal({
+    //         title: "Are you sure!",
+    //         type: "error",
+    //         confirmButtonClass: "btn-danger",
+    //         confirmButtonText: "Yes!",
+    //         showCancelButton: true,
+    //     },
+    //     function() {
+			$.ajax({
+			url: url,
+			type: "GET",
+			// dataType: "JSON",                
+			data: {id:id},
+			success: function (data) {
+				if(data.error)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<p>'+data.error[count]+'</p>';
+                    }
+                    $('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
+                }
+                else
+                {
+					setTimeout(function() {
+					}, 100);
+                    $('#result').html('<div class="alert alert-success">'+data.success+'</div>');
+                }
+
+			}         
+		});
+		// });
+		
+	});
+});
+	
+
+
 
 </script>
 

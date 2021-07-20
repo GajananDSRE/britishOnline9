@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Slider;
-use DB;
+use DB,Exception,Cache;
 
 class PosterController extends Controller
 {
@@ -13,13 +14,12 @@ class PosterController extends Controller
     }
 
     public function slider(){
-        $sliders = DB::table('sliders')->get();
-        //echo "<pre>"; print_r($sliders);exit;
+        $sliders = DB::table('sliders')->get();        
         return view('admin.slider', compact('sliders'));
     }
 
     public function addmultipleSlider($file,$folder_name)
-    {
+    { 
         try{
             if(!$file){
                 throw new Exception("File Not Found.", 1); 
@@ -34,6 +34,26 @@ class PosterController extends Controller
 
     public function createFrontSlider(Request $request)
     {
+        if(!$request->isMethod('post') || !$request->ajax()){
+            throw new Exception("Http Request not allowed.", 1); 
+        }
+        $input = $request->all();
+    
+        $validator = Validator::make($input,[
+            "data" => "required|array|min:1",
+            "data.*.file" => "required|mimes:jpeg,jpg,png",
+            "data.*.title" => "required",
+            "data.*.sort_order" => "required",
+        ],
+        [
+            'data.*.file.required' => 'The image field is required.',
+            'data.*.file.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
+            'data.*.title.required' => 'The title field is required.',
+            'data.*.sort_order.required' => 'The sort order field is required.',
+        ]);
+        if($validator->fails()){
+            throw new Exception(implode('<br>', $validator->errors()->all()), 1);
+        }
         $inputData = $request->all(); 
         $slider_folder = 'front_slider';
         $slider = array();
@@ -57,9 +77,60 @@ class PosterController extends Controller
             'success'  => 'Slider Added successfully.'
            ]);
     }
+    public function editslider(Request $request,$id){  
+        $slide_data = Slider::find($id);
+        return response(['slide_data' => $slide_data]);
+    }
 
-    public function updateFrontSlider(Request $request, $id){
-        dd($request->all());
+    public function updateFrontSlider(Request $request, $id)
+    {
+        if(!$request->isMethod('post') || !$request->ajax()){
+            throw new Exception("Http Request not allowed.", 1); 
+        }
+        $input = $request->all();//dd($request->all());
+        $validator = Validator::make($input,[
+            "file" => "nullable|mimes:jpeg,jpg,png",
+            "title" => "required",
+            "sort_order" => "required|numeric",
+            "slider_id" => 	'required',
+        ],
+        [
+            'file.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
+            'title.required' => 'The title must be required.',
+            'sort_order.required' => 'The sort order must be required.',
+        ]);
+        if($validator->fails()){
+            throw new Exception(implode('<br>', $validator->errors()->all()), 1);
+        }
+        $input = $request->all();
+        $slider_folder = 'front_slider';
+        $data = array();
+        $data =  $request->only('title','sort_order');
+        $bannerData = Slider::find($id);
+        if(!empty($input['file'])){
+            $banner_name = $this->addmultipleSlider($input['file'],$slider_folder);
+            if($banner_name['status'] == false){ 
+                throw new exception("Error occurred while upload file!"); 
+            }
+            $data['image'] = $banner_name['file'];
+        }
+        $bannerData->fill($data)->save();
+        return response()->json([
+            'success'  => 'Slider Updated successfully.'
+        ]);
 
+    }
+    public function delete(Request $request)
+    {         
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|exists:sliders,id',
+        ]);
+        if($validator->fails()){
+            throw new Exception(implode('<br> ', $validator->errors()->all()), 1);
+        }
+        Slider::find($request->id)->delete();
+        return response()->json([
+            'success'  => 'Slider deleted successfully.'
+        ]);
     }
 }
