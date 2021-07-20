@@ -25,8 +25,8 @@ class AdminSignIn extends FormRequest
     {
         return [
             //
-            'userid' => ['required'],
-            'password' => ['required', 'min:6'],
+            'userid'    => ['required'],
+            'password'  => ['required', 'min:6'],
         ];
     }
 }

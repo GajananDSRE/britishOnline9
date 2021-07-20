@@ -81,7 +81,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Sr.No.</th>
                     <th scope="col">Exchange</th>
                     <th scope="col">Total Id</th>
                     <th scope="col">Balance</th>
@@ -90,66 +90,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Bullexch.com</td>
-                    <td>500</td>
-                    <td>45000</td>
-                    <td>450</td>
-                    <td style="font-size: 20px;">
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Betfair.com</td>
-                    <td>400</td>
-                    <td>350000</td>
-                    <td>350</td>
-                    <td style="font-size: 20px;">
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Dafa.com</td>
-                    <td>300</td>
-                    <td>250000</td>
-                    <td>250</td>
-                    <td style="font-size: 20px;">
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Betdaily.site</td>
-                    <td>200</td>
-                    <td>15000</td>
-                    <td>150</td>
-                    <td style="font-size: 20px;">
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>Britishonline9</td>
-                    <td>100</td>
-                    <td>50000</td>
-                    <td>50</td>
-                    <td style="font-size: 20px;">
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                    </td>
-                </tr>
+                <?php $i=1;?>
+                   @foreach($exchange_data as $data)
+                    <tr>
+                        <th scope="row">{{ $i }}</th>
+                        <td>{{ $data->name }}</td>
+                        <td>500</td>
+                        <td>{{ $data->balance }}</td>
+                        <td>450</td>
+                        <td style="font-size: 20px;">
+                            
+                            <a href="{{ route('admin.edit-exchange', $data->id) }}"><i class="fa fa-pencil" style="padding: 0px 0px 0px 20px;"></i></a> 
+                            <a href="{{ route('admin.delete-exchange', $data->id) }}"><i class="fa fa-trash" style="padding: 0px 0px 0px 20px;"></i></a>
+                            <a href="#"><i class="dw dw-padlock1" style="padding: 0px 0px 0px 20px;"></i></a>
+                        </td>
+                    </tr>
+                <?php $i++; ?>
+                  @endforeach
             </tbody>
         </table>
     </div>

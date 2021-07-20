@@ -30,5 +30,61 @@ $(document).ready(function() {
                                 }
                             }
             });
+
+            $("#exchange").validate({
+                rules:      {  
+                                name: {
+                                    required: true,
+                                    minlength: 6
+                                },
+                                url: {
+                                    required: true,
+                                },
+                                logo: {
+                                    required: true,
+                                },
+                                demo_id: {
+                                    required: true,
+                                    minlength: 6
+                                },
+                                password: {
+                                    required: true,
+                                    minlength: 5
+                                },
+                                sport: {
+                                    required: true,
+                                },
+                                balance: {
+                                    required: true,
+                                }
+
+                            },
+                messages:   {
+                                name: {
+                                    required: "Exchange name is required",
+                                    minlength: "Exchange name cannot be more than 6 characters"
+                                },
+                                url: {
+                                    required: "Exchange URL is required",
+                                },
+                                logo: {
+                                    required:  "Logo is required",
+                                },
+                                demo_id: {
+                                    required: "Demo ID is required",
+                                    minlength: "Demo ID must be at least 6 characters"
+                                },
+                                password: {
+                                    required: "Password is required",
+                                    minlength: "Password must be at least 6 characters"
+                                },
+                                sport: {
+                                    required:  "Sport is required",
+                                },
+                                balance: {
+                                    required:  "Balance is required",
+                                }
+                            }
+            });
 });
  

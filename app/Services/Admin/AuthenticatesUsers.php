@@ -30,15 +30,15 @@ trait AuthenticatesUsers
      */
     public function login(AdminSignIn $request)
     {
-    	$userid = $request->userid;
-        $user = DB::table('users')->where('userid', $userid)->first();
+    	$userid    = $request->userid;
+        $user      = DB::table('users')->where('userid', $userid)->first();
         if(!empty($user)){
             $checkUser = $this->checkUserAuthenticated($user);
             if($checkUser['errorCode']){
                 return redirect()->back()->withErrors($checkUser['message'])->withInput();
             }else{
-                    $creds = $request->only(['userid', 'password']);
-                    $remember_me  = ( !empty( $request->remember_me ) )? TRUE : FALSE;
+                    $creds          = $request->only(['userid', 'password']);
+                    $remember_me    = ( !empty( $request->remember_me ) )? TRUE : FALSE;
                     if (Auth::attempt($creds, $remember_me)){
                         $request->session()->regenerate();
                         $auth = Auth::user();
@@ -66,13 +66,13 @@ trait AuthenticatesUsers
             if($user->role_id == 3){
                     throw new Exception("You are not allowed to access this panel!");
                 }
-            $user_parent_ids = $user->parents;
-            $user_parent_id_arr = explode(',',$user_parent_ids);
-            $user_parent_arr = DB::table('users')->whereIn('id',$user_parent_id_arr)->selectRaw('is_lock_user,site,role_id')->get();
-            $user_parent_arr = json_decode(json_encode($user_parent_arr),true);
-            $user_parent_lock_arr = array_column($user_parent_arr,'is_lock_user');
-            $user_parent_role_arr = array_column($user_parent_arr,'role_id');
-            $user_parent_site_arr = array_column($user_parent_arr,'site');
+            $user_parent_ids        = $user->parents;
+            $user_parent_id_arr     = explode(',',$user_parent_ids);
+            $user_parent_arr        = DB::table('users')->whereIn('id',$user_parent_id_arr)->selectRaw('is_lock_user,site,role_id')->get();
+            $user_parent_arr        = json_decode(json_encode($user_parent_arr),true);
+            $user_parent_lock_arr   = array_column($user_parent_arr,'is_lock_user');
+            $user_parent_role_arr   = array_column($user_parent_arr,'role_id');
+            $user_parent_site_arr   = array_column($user_parent_arr,'site');
             array_push($user_parent_lock_arr,$user->is_lock_user);
             if(in_array(1,$user_parent_lock_arr)){
                throw new Exception("Your ID is locked!");
@@ -87,7 +87,6 @@ trait AuthenticatesUsers
     { 
         Session::flush();
         Auth::logout();
-        //return response()->json(['success' => "Logged out successfully"]);
         return redirect()->to('login')->withSuccess("Logged out successfully");
     }
 }

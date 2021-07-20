@@ -22,13 +22,13 @@ trait RegistersUsers
     public function register(SignUpRequest $request)
     {
     	$data =  User::create([
-            'name' => $request['name'],
-            'userid' => $request['userid'],
-            'contact' => $request['contact'],
-            'password' => Hash::make($request['password']),
-            'token' => $request['_token'],
-            'role_id'=>'1',
-            'whatsapp_no'=>$request['whatsapp_no'],
+            'name'          =>  $request['name'],
+            'userid'        =>  $request['userid'],
+            'contact'       =>  $request['contact'],
+            'password'      =>  Hash::make($request['password']),
+            'token'         =>  $request['_token'],
+            'role_id'       =>  '1',
+            'whatsapp_no'   =>  $request['whatsapp_no'],
         ]);
         if($data){
         	return redirect('login');

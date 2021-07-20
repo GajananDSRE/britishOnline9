@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SignInRequest extends FormRequest
+class AadExchangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,13 @@ class SignInRequest extends FormRequest
     {
         return [
             //
-            'userid'    => ['required'],
-            'password'  => ['required', 'min:6'],
+            'name'      =>  ['required'],
+            'url'       =>  ['required'],
+            'logo'      =>  ['required'],
+            'demo_id'   =>  ['required'],
+            'password'  =>  ['required','min:6'],
+            'sport'     =>  ['required'],
+            'balance'   =>  ['required'],
         ];
     }
 }

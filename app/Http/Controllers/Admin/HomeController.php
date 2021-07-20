@@ -17,10 +17,7 @@ class HomeController extends Controller
     public function index(){
         return view('admin.index');
     }
-    public function add_exchange(){
-        return view('admin.add_exchange');
-    }
-
+    
     public function profile(){
         $user = Auth::User();
         return view('admin.profile',['user'=>$user]);
@@ -29,7 +26,6 @@ class HomeController extends Controller
     public function showPassword(){
         return view('admin.password');
     }
-
     public function changePassword(ChangePassword $request){
         $auth = Auth::user();
         $current_password = $request->current_password;

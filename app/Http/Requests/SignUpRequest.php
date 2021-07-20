@@ -24,12 +24,12 @@ class SignUpRequest extends FormRequest
     {
         return [
             // rule for registration form
-            'name' => ['required','min:3'],
-            'userid' => ['required'],
-            'contact' => ['required','min:10'],
-            'password' => ['required','min:6'],
-            'confirmPassword' => ['required_with:password','same:password','min:6'],
-            'whatsapp_no' => ['required','min:10'],
+            'name'              => ['required','min:3'],
+            'userid'            => ['required'],
+            'contact'           => ['required','min:10'],
+            'password'          => ['required','min:6'],
+            'confirmPassword'   => ['required_with:password','same:password','min:6'],
+            'whatsapp_no'       => ['required','min:10'],
         ];
     }
 }
