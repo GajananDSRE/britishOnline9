@@ -48,10 +48,12 @@ class ExchangeController extends Controller
 		        return array('errorCode' => true,'message' => $e->getMessage());
 		    }
     }
+
     public function editExchange($id){ 
     	$up_exchange_data = DB::table('exchanges')->where('id',$id)->first(); 
     	return view('admin.edit_exchange',compact('up_exchange_data'));
     }
+
     public function updateExchange(Request $request){
 
     	$update_data = DB::table('exchanges')
@@ -63,11 +65,8 @@ class ExchangeController extends Controller
     	}else{
     		echo "not successfully";
     	}
-    	// echo "<pre>";
-    	// print_r($update_data);
-    	//return view('admin.index',compact('update_data'));
     }
-
+    
     public function deleteExchange($id){
     	$data = Exchange::find($id);
     	$data->delete();
