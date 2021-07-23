@@ -85,8 +85,15 @@ trait AuthenticatesUsers
 
     public function logout(Request $request)
     { 
-        Session::flush();
-        Auth::logout();
-        return redirect()->to('login')->withSuccess("Logged out successfully");
+        try {
+            Session::flush();
+            Auth::logout();
+            return redirect()->to('login')->withSuccess("Logged out successfully");
+        }
+         catch(Exception $e) {
+            return array('errorCode' => true,'message' => $e->getMessage());
+           // return redirect()->to('login')->withError("User id or password invalid")->withInput(); 
+        }
+        
     }
 }

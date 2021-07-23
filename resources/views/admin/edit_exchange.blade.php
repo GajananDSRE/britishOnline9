@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
+<?php  $exchange_sport  = explode(',', $up_exchange_data->sport); ?> 
 <div class="pd-ltr-20 xs-pd-20-10">
 	<div class="min-height-200px">
 		<div class="page-header">
@@ -37,6 +38,7 @@
                     @elseif(Session::has("failed"))
                             {{Session::get("failed")}}
                     @endif
+                	
 					{{ Form::open(array('url' => ['update-exchange'],'autocomplete'=>'off','id'=>'update-exchange','enctype'=>'multipart/form-data')) }}
 							{{ Form::hidden('id',$up_exchange_data->id) }}
 						<div class="form-group">
@@ -50,7 +52,7 @@
 						<div class="form-group">
 							{{ Form::label('Exchange logo', 'Exchange logo') }}
 							{{ Form::file('logo',['class'=> 'form-control'])}}
-							<img style="width: 134px;" src="{{ asset('/images/exchange_img').'/'.$up_exchange_data->logo }}">
+							<img style="width: 134px;margin-top: 15px;" src="{{ asset('/images/exchange_img').'/'.$up_exchange_data->logo }}">
 						</div>
 						<div class="row">
 							<div class="col-md-6 col-sm-12">
@@ -62,32 +64,31 @@
 							<div class="col-md-6 col-sm-12">
 								<div class="form-group">
 									{{ Form::label('Demo Password', 'Demo Password') }}
-									{{ Form::text('password',$up_exchange_data->password,['class'=> 'form-control','placeholder'=>'abc123'])}}
+									{{ Form::password('password',['class'=> 'form-control','placeholder'=>'abc123'])}}
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group table-responsive">
-
 								{{ Form::label('Select Game', 'Select Game',['class'=>'time-label pl-4']) }}
 									<ul class="d-flex ml-4">
 										<li class="p-4">
-											{{ Form::checkbox('sport[]', 'cricket',$up_exchange_data->sport == 'cricket' ? 'checked' : '' ,['id'=>'cricket']) }}
-											{{ Form::label('Cricket', 'Cricket', ['class'=>'check']) }}									
+											{{ Form::checkbox('sport[]', 'cricket',in_array('cricket',$exchange_sport) ? 'checked' : '' ,['id'=>'cricket']) }}
+											{{ Form::label('cricket', 'Cricket', ['class'=>'check']) }}									
 											<div class="check"></div>
 										</li>										
 										<li class="p-4">
-											{{ Form::checkbox('sport[]', 'football',$up_exchange_data->sport ? true : false ,['id'=>'football']) }}
+											{{ Form::checkbox('sport[]', 'football', in_array('football',$exchange_sport) ? 'checked' : '',['id'=>'football']) }}
 											{{ Form::label('Football', 'Football', ['class'=>'check']) }}						
 											<div class="check"><div class="inside"></div></div>
 										</li>										
 										<li class="p-4">
-											{{ Form::checkbox('sport[]', 'tennis',$up_exchange_data->sport ? true : false,['id'=>'tennis']) }}
+											{{ Form::checkbox('sport[]', 'tennis',in_array('tennis',$exchange_sport) ? 'checked' : '',['id'=>'tennis']) }}
 											{{ Form::label('Tennis', 'Tennis', ['class'=>'check']) }}						
 											<div class="check"><div class="inside"></div></div>
 										</li>
 										<li class="p-4">
-											{{ Form::checkbox('sport[]', 'casino',$up_exchange_data->sport ? 'true' : 'false',['id'=>'casino']) }}
+											{{ Form::checkbox('sport[]', 'casino',in_array('casino',$exchange_sport) ? 'checked' : '',['id'=>'casino']) }}
 											{{ Form::label('Casino', 'Casino', ['class'=>'check']) }}								
 											<div class="check"></div>
 										</li>

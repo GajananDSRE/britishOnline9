@@ -50,13 +50,16 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
           
 	Route::group(['namespace' => 'Admin', 'as' => 'admin.'],function(){ 
         Route::group(['middleware' => ['auth']],function(){  
-        /* ExchangeID */
+       /* ExchangeID */
         Route::get('/',['as' => 'index', 'uses' => 'ExchangeController@index']);
         Route::get('/add-exchange',['as' => 'add-exchange', 'uses' => 'ExchangeController@showExchange']);
         Route::post('/add-exchange',['as' => 'add-exchange', 'uses' => 'ExchangeController@addExchange']);
         Route::get('/edit-exchange/{id}',['as' => 'edit-exchange', 'uses' => 'ExchangeController@editExchange']);
         Route::post('/update-exchange',['as' => 'update-exchange', 'uses' => 'ExchangeController@updateExchange']);
-        Route::get('/delete-exchange/{id}',['as' => 'delete-exchange', 'uses' => 'ExchangeController@deleteExchange']);
+        Route::get('/delete-exchange',['as' => 'delete-exchange', 'uses' => 'ExchangeController@deleteExchange']);
+        Route::post('/lock-exchange',['as' => 'lock-exchange', 'uses' => 'ExchangeController@updateLockExchange']);
+
+        // Route::get('/delete-exchange/{id}',['as' => 'delete-exchange', 'uses' => 'ExchangeController@deleteExchange']);
 		Route::get('/real-worli',['as' => 'real-worli', 'uses' => 'WorliMatkaController@realWorli']);
 		Route::get('/indian-casino',['as' => 'indian-casino', 'uses' => 'AdminGamezoneController@indian_casino']);
 		Route::get('/live-casino',['as' => 'live-casino', 'uses' => 'AdminGamezoneController@live_casino']);

@@ -13,8 +13,10 @@ class Exchange extends Model
      *
      * @var array
      */
+    
+
     protected $fillable = [
-        'name','url','logo','demo_id','password','sport','balance','token'
+        'id','name','url','logo','demo_id','password','sport','balance','token'
     ];
 
 }
