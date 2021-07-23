@@ -78,7 +78,7 @@
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                     <span class="user-icon">
-                        <img src="{{ asset('admin/vendors/images/photo1.jpg') }}" alt="">
+                        <img src="{{ asset('admin/vendors/images/Profile/'. Auth::User()->profile) }}" alt="">
                     </span>
                     <span class="user-name">@if(Auth::User()) {{ Auth::User()->name }} @endif</span>
                 </a>

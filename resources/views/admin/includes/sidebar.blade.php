@@ -60,10 +60,11 @@
                         <i class="fa fa-cogs  micon" aria-hidden="true"></i><span class="mtext">Setting </span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="{{route('admin.poster')}}">Add Poster</a></li>
+                        <li><a href="{{route('admin.poster')}}">Banner/Slider</a></li>
                         <li><a href="{{route('admin.rules')}}">Add Rules</a></li>
                         <li><a href="{{route('admin.createId')}}">Create ID</a></li>
                         <li><a href="{{route('admin.wallet')}}">Wallet</a></li>
+                        <li><a href="{{route('admin.logo-setting')}}">Site Setting</a></li>
                     </ul>
                 </li>
                 <li>

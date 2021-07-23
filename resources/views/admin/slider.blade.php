@@ -41,7 +41,7 @@
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="post-data-list">
 					<?php $i=1; ?>
 					@foreach($sliders as $slider)
 					<tr>
@@ -73,9 +73,8 @@
         	</div>
 			<div class="modal-body">          
 				<!-- Bootstrap Select Start -->
-				<form id="slider-upload-form" enctype="multipart/form-data" name="slider-upload-form">
-				{{csrf_field()}}
-					
+				{{ Form::open(array('id'=>'slider-add-form','class'=>'form2', 'name' =>'slider-add-form','enctype'=>'multipart/form-data')) }}
+					<!-- <div class="col-sm-12"><span id="addErr" style="color: #dc3545; font-size: 14px;"></span></div> -->
 					<!-- <div class="row">
 							<div class="col-md-12 col-sm-12">
 								<div class="form-group">
@@ -96,9 +95,12 @@
 							<th>Sort Order</th>
 						</tr>
 						<tr>
-							<td><input type="file" name="data[1][file]" id="imageinput" data-rule-required="true" accept="image/*"  /></td>
-							<td><input type="text" name="data[1][title]" data-rule-required="true" placeholder="Title" class="form-control"/></td>
-							<td><input type="text" name="data[1][sort_order]" data-rule-required="true" v-model="sort_order_increment" placeholder="Sort Order" class="form-control"/></td>
+							<td><input type="file" name="data[1][file]" id="imageinput" data-rule-required="true" accept="image/*"  />
+							<span id="addErr" style="color: #dc3545; font-size: 14px;"></span></td>
+							<td><input type="text" name="data[1][title]" data-rule-required="true" placeholder="Title" class="form-control"/>
+							<span id="addErr" style="color: #dc3545; font-size: 14px;"></span></td>
+							<td><input type="text" name="data[1][sort_order]" data-rule-required="true" v-model="sort_order_increment" placeholder="Sort Order" class="form-control"/>
+							<span id="addErr" style="color: #dc3545; font-size: 14px;"></span></td>
 							<td>
 								<i class="fa fa-plus-square" aria-hidden="true" style="font-size: 40px;" id="addRow"></i>
 							</td>
@@ -106,10 +108,10 @@
 					</table>
 					<div class="row text-center mt-3" style="justify-content: center;">
 						<div class="col-md-6 col-sm-12">
-							<button type="button" class="btn btn-outline-primary"  name="submit" id="submit" >Submit</button>
+						{{ Form::submit('Submit',['class' => 'btn btn-outline-primary','id' => 'submit'])}}
 						</div>
 					</div>
-				</form>		
+					{{ Form::close() }}		
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -127,10 +129,9 @@
 				<h4 class="modal-title">Edit Slider</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>          
         	</div>
-			<div class="modal-body">          
+			<div class="modal-body">
 				<!-- Bootstrap Select Start -->
-				<form id="slider-edit-form" enctype="multipart/form-data" name="slider-edit-form">
-					{{csrf_field()}}
+				{{ Form::open(array('id'=>'slider-edit-form','class'=>'form2', 'name' =>'slider-edit-form','enctype'=>'multipart/form-data')) }}
 					<input type="hidden" id="slider_id" name="slider_id">
 					<table class="table">
 						<tr>
@@ -139,22 +140,24 @@
 							<th>Sort Order</th>
 						</tr>
 						<tr>
-							<td><input type="file" name="file"  data-rule-required="true" accept="image/*"  /></td>
+							<td><input type="file" name="file"  id="file" accept="image/*"  /></td>
 							<td><input type="text" name="title" id="title" data-rule-required="true" placeholder="Title" value="" class="form-control"/></td>
 							<td><input type="text" name="sort_order" id="sort_order" data-rule-required="true" v-model="sort_order_increment" placeholder="Sort Order" class="form-control"/></td>
 							
 						</tr>
 					</table>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<img src="'images/slider/'" class="rounded img-responsive" id="image" width="100" height="100"> 
-					</div>					
-				</form>		
+					</div>					 -->
+					<div class="row text-center mt-3" style="justify-content: center;">											
+						<div class="col-md-6 col-sm-12">
+							{{ Form::submit('Update',['class' => 'btn btn-outline-primary','id' => 'update'])}}
+						</div>
+					</div>
+					{{ Form::close() }}		
 			</div>
 			<div class="modal-footer">
-				<div class="col-md-6 col-sm-12">
-					<button type="button" class="btn btn-outline-primary" id="update">Update</button>
-					<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-				</div>				
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div> 	   
 	</div>
@@ -167,113 +170,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
 
 <script>
+
+	// global app configuration object
+    var config = {
+        routes: {
+            addSlider: "{{ route('admin.create-slider') }}",
+            updateSlider: "{{ route('admin.update-slider') }}",
+
+        }
+    };
+
+$(document).ready(function() {
+
 	
-$(document).ready(function() {
-
-	var i = 2;
-	$("#addRow").click(function() {
-		$('#dynamic_field').append('<tr id="row'+i+'"><td><input type="file" data-rule-required="true" name="data['+i+'][file]" id="imageinput'+ i +'" accept="image/*"/></td><td><input type="text" name="data['+i+'][title]" placeholder="Title" data-rule-required="true" class="form-control"/></td><td><input type="text" name="data['+i+'][sort_order]" data-rule-required="true" placeholder="Sort Order" value="'+i+'" class="form-control"/></td><td><button type="button" name="remove" id="'+ i +'" class="btn btn-danger btn_remove"><i class="fa fa-minus" aria-hidden="true"></i></button></td></tr>');
-		i++;
-	});
-
-	$(document).on('click', '.btn_remove', function () {
-		var button_id = $(this).attr('id');
-		$(this).closest('#row'+button_id+'').remove();
-	});
-
-	$.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-      });
-
-	$('#submit').click(function(){
-		var formdata = new FormData(document.getElementById("slider-upload-form"));
-		$.ajax({
-            url:'{{ route("admin.create-slider") }}',
-            method:'POST',
-			processData: false,
-            data: formdata,
-            dataType:'json',
-			contentType: false,
-            // beforeSend:function(){
-            //     $('#submit').attr('disabled','disabled');
-            // },			
-			success:function(data)
-            {
-                if(data.error)
-                {
-                    var error_html = '';
-                    for(var count = 0; count < data.error.length; count++)
-                    {
-                        error_html += '<p>'+data.error[count]+'</p>';
-                    }
-                    $('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
-                }
-                else
-                {
-					setTimeout(function() {
-					$('#addSlider').modal('hide');
-					}, 100);
-                    $('#result').html('<div class="alert alert-success">'+data.success+'</div>');
-                }
-				
-            }
-		});
-	});
-
-	$('.edit-slider').on("click", function(event) {
-		$("#edit-slider").modal('show');
-		var slider_id = $(this).data('id');
-		$.ajax({
-			url: "edit-slider/" + slider_id,
-			type: 'GET',
-			dataType: 'json',
-		}).done(function(response) {
-			console.log(response.slide_data.id);
-			$("#slider_id").val(response.slide_data.id);
-			$("#image").val(response.slide_data.image);
-			$("#title").val(response.slide_data.title);
-			$("#sort_order").val(response.slide_data.sort_order);
-		});
-	});
-
-});
-
-$(document).ready(function() {
-	$("#update").on("click", function() {
-		// alert('hiii');
-		var id = $("#slider_id").val();console.log(id);
-		var formdata = new FormData(document.getElementById("slider-edit-form"));
-		var url = "{{ route('admin.update-slider', ":id") }}";
-		url = url.replace(':id', id);	
-    	$.ajax({ 
-			url:url,
-			method: "POST",
-			processData: false,
-			data: formdata,
-			dataType: 'json',
-			contentType: false,
-			success: function (data) {
-				if(data.error)
-				{
-					var error_html = '';
-					for(var count = 0; count < data.error.length; count++)
-					{
-						error_html += '<p>'+data.error[count]+'</p>';
-					}
-					$('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
-				}
-				else
-				{
-					setTimeout(function() {
-					$('#edit-slider').modal('hide');
-					}, 100);
-					$('#result').html('<div class="alert alert-success">'+data.success+'</div>');
-				}
-			}
-  		});
-	});
 
 	$(".deleteSlider").click(function(){
 	var id = $(this).data('id');
@@ -306,13 +215,13 @@ $(document).ready(function() {
                 {
 					setTimeout(function() {
 					}, 100);
-                    $('#result').html('<div class="alert alert-success">'+data.success+'</div>');
+                    $('#result').html('<div class="alert alert-success">'+data.success+'</div>').fadeIn('slow');
+                	$('#result').delay(5000).fadeOut('slow');
                 }
 
 			}         
 		});
-		// });
-		
+	// });		
 	});
 });
 	
