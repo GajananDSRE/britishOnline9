@@ -4,14 +4,16 @@ namespace App\Services\Admin;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use App\Exceptions\CustomException;
 use App\Http\Requests\AdminSignIn;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use DB,Exception,Validator;
 use App\Models\User;
 use Auth;
-use Illuminate\Http\RedirectResponse;
+
 
 trait AuthenticatesUsers
 {
@@ -30,28 +32,31 @@ trait AuthenticatesUsers
      */
     public function login(AdminSignIn $request)
     {
-    	$userid    = $request->userid;
-        $user      = DB::table('users')->where('userid', $userid)->first();
-        if(!empty($user)){
-            $checkUser = $this->checkUserAuthenticated($user);
-            if($checkUser['errorCode']){
-                return redirect()->back()->withErrors($checkUser['message'])->withInput();
-            }else{
-                    $creds          = $request->only(['userid', 'password']);
-                    $remember_me    = ( !empty( $request->remember_me ) )? TRUE : FALSE;
-                    if (Auth::attempt($creds, $remember_me)){
-                        $request->session()->regenerate();
-                        $auth = Auth::user();
-                        $user = User::where(["userid" => $creds['userid']])->first();
-                        Auth::login($user, $remember_me);
-                        return redirect()->to('/')->withSuccess("You are logged in successfully!");
-                    }else{
-                        return redirect()->back()->withErrors("User id or password invalid")->withInput();
+        try{
+            $userid    = $request->userid;
+            $user      = DB::table('users')->where('userid', $userid)->first();
+            if(!empty($user)){
+                $checkUser = $this->checkUserAuthenticated($user);
+                if($checkUser['errorCode']){
+                    return redirect()->back()->withErrors($checkUser['message'])->withInput();
+                }else{
+                        $creds          = $request->only(['userid', 'password']);
+                        $remember_me    = ( !empty( $request->remember_me ) )? TRUE : FALSE;
+                        if (Auth::attempt($creds, $remember_me)){
+                            $request->session()->regenerate();
+                            $auth = Auth::user();
+                            $user = User::where(["userid" => $creds['userid']])->first();
+                            Auth::login($user, $remember_me);
+                            return redirect()->to('/')->withSuccess("You are logged in successfully!");
+                        }else{
+                            return redirect()->back()->withErrors("User id or password invalid")->withInput();
+                        }
                     }
-                }
-        }else{
-            return redirect()->back()->withErrors("User id or password invalid")->withInput(); 
+            }
+        }catch(Exception $e){
+            return array('errorCode' => true,'message' => $e->getMessage());
         }
+        return redirect()->back()->withErrors("User id or password invalid");
     }
 
     /**
@@ -82,6 +87,10 @@ trait AuthenticatesUsers
             return array('errorCode' => true,'message' => $e->getMessage());
         }
     }
+    /**
+     * user logout.
+     *
+     */
 
     public function logout(Request $request)
     { 
@@ -91,8 +100,7 @@ trait AuthenticatesUsers
             return redirect()->to('login')->withSuccess("Logged out successfully");
         }
          catch(Exception $e) {
-            return array('errorCode' => true,'message' => $e->getMessage());
-           // return redirect()->to('login')->withError("User id or password invalid")->withInput(); 
+            return redirect()->to('login')->withError("User id or password invalid"); 
         }
         
     }

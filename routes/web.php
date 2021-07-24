@@ -76,6 +76,9 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
 		Route::get('/time-management',['as' => 'time-management', 'uses' => 'BankingController@time_management']);
 		Route::get('/request-list',['as' => 'request-list', 'uses' => 'BankingController@request_list']);
         Route::get('/profile',['as' => 'profile', 'uses' => 'HomeController@profile']);
+
+        Route::post('profile-update', 'HomeController@profileUpdate');
+
         Route::get('/password',['as' => 'password', 'uses' => 'HomeController@showPassword']);
         Route::post('password',['as' => 'password', 'uses' => 'HomeController@changePassword']);
         /* Poster */
@@ -83,13 +86,15 @@ Route::group(['middleware' => ['web'],'domain' => 'ag.britishonline9.dl'], funct
         Route::get('/slider',['as' => 'slider', 'uses' => 'PosterController@slider']);
         Route::post('/create-slider',['as' => 'create-slider', 'uses' => 'PosterController@createFrontSlider']);
         Route::get('/edit-slider/{id}',['as' => 'edit-slider', 'uses' => 'PosterController@editslider']);
-        Route::post('/update-slider/{id}',['as' => 'update-slider', 'uses' => 'PosterController@updateFrontSlider']);
+        Route::post('/update-slider',['as' => 'update-slider', 'uses' => 'PosterController@updateFrontSlider']);
         Route::match(['get','post'],'/delete-slider',['as' => 'delete-slider', 'uses' => 'PosterController@delete']);
 
 
         Route::get('/rules',['as' => 'rules', 'uses' => 'RuleController@index']);
         Route::get('/createId',['as' => 'createId', 'uses' => 'HomeController@createId']);
         Route::get('/wallet',['as' => 'wallet', 'uses' => 'WalletController@wallet']);
+        Route::get('/logo-setting',['as' => 'logo-setting', 'uses' => 'SettingController@logo_setting']);
+        Route::post('/logo-update',['as' => 'logo-update', 'uses' => 'SettingController@logo_update']);
         Route::get('/book-details-one',['as' => 'book-details-one', 'uses' => 'ReportController@book_details_one']);
         Route::get('/book-details-two',['as' => 'book-details-two', 'uses' => 'ReportController@book_details_two']);
         Route::get('/daily-pl',['as' => 'daily-pl', 'uses' => 'ReportController@dailypl']);

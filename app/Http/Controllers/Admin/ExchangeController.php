@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\UpdateExchangeRequest;
 use App\Http\Requests\AadExchangeRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -78,7 +78,7 @@ class ExchangeController extends Controller
      * Update exchage ID data .
      * @param Request $request
      */
-    public function updateExchange(Request $request){ 
+    public function updateExchange(UpdateExchangeRequest $request){ 
     	try{
 	    	if(!empty($request->id)){
 	    		$file = $request->logo;
@@ -115,7 +115,6 @@ class ExchangeController extends Controller
 	
 	    	$data = Exchange::find($request->id);
 	    	$data->delete();
-	    	//return redirect()->to('/')->withSuccess('Exchange ID Deleted Successfully');
 	    	return response()->json(['success' => 'Exchange ID Deleted Successfully.','id' => $request->id]);
 
     }
@@ -126,7 +125,6 @@ class ExchangeController extends Controller
      */
 
     public function updateLockExchange(Request $request){
-
     	try {
 	 		$user   =   Exchange::find($request->id);
 	 		if ($user) {
@@ -135,7 +133,7 @@ class ExchangeController extends Controller
 
 	 			if (isset($input['is_lock_id'])){
 	 			$ExchangeData =	Exchange::where('id',$input['id'])->update(!empty($input['is_lock_id']) ? ['is_lock_id'=> '0'] : ['is_lock_id'=> '1']);
-				return response()->json(['success' => 'SETTING HAS BEEN CHANGED SUCCESSFULLY.']);
+				return response()->json(['success' => 'SETTING HAS BEEN CHANGED SUCCESSFULLY.','is_lock_id' => $request->id]);
 	 			} 
 	 		}
  		}catch (Exception $e) {

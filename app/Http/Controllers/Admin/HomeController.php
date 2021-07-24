@@ -7,6 +7,7 @@ use App\Http\Requests\ChangePassword;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Http\Request;
 use DB,Exception,Validator;
 use App\Models\User;
@@ -23,9 +24,62 @@ class HomeController extends Controller
         return view('admin.profile',['users'=>$users]);
     }
 
+    public function addprofilephoto($file,$folder_name)
+    { 
+        try{
+            if(!$file){
+                throw new Exception("File Not Found.", 1); 
+            }
+            $image_name= uniqid().".".$file->getClientOriginalExtension();
+            $file->move(public_path().'/admin/vendors/images/'.$folder_name.'/', $image_name);
+            return array('status' => true, 'file' => $image_name); 
+        }catch(Exception $e){
+            return array('status' => false);
+        }
+    }
+    public function profileUpdate(ProfileRequest $request)
+    { 
+        try{
+            $input = $request->all();
+            if (isset($request->validator) && $request->validator->fails()) {
+                throw new Exception(implode('<br> ', $request->validator->errors()->all()), 1);
+            }
+            $profile_folder = 'Profile';
+            $data                   =   array();
+            $user   =   User::find($input['id']);
+            if ($user) {                
+                if (isset($input)) {
+                    if($input['type'] == 'profile'){
+                        if(!empty($input['file'])){
+                            $profile_name = $this->addprofilephoto($input['file'],$profile_folder);
+                            if($profile_name['status'] == false){ 
+                                throw new exception("Error occurred while upload file!"); 
+                            }
+                            $data['profile'] = $profile_name['file'];                        
+                        }
+                    }
+                    if($input['type'] == 'name'){ $data['name'] = $input['name'];}
+                    if($input['type'] == 'email'){ $data['email'] = $input['email'];}
+                    if($input['type'] == 'contact'){ $data['contact'] = $input['contact'];}
+                    if($input['type'] == 'whatsapp_no'){ $data['whatsapp_no'] = $input['whatsapp_no'];}
+                    if($input['type'] == 'country'){ $data['country'] = $input['country'];}
+                }
+                $user->fill($data)->save();
+                return response()->json(['errorStatus' => false, 'data' => $user, 'message' => 'Profile Updated Successfully']);
+            }
+        }catch(Exception $e){
+            return response()->json(['errorStatus' => true, 'message' => $e->getMessage()]);
+        }
+    }
+
     public function showPassword(){
         return view('admin.password');
     }
+    
+    /**
+     * User Change password .
+     * @param ChangePassword $request
+     */
     public function changePassword(ChangePassword $request){
         $auth = Auth::user();
         $current_password = $request->current_password;

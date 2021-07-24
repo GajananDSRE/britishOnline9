@@ -34,6 +34,7 @@ class PosterController extends Controller
 
     public function createFrontSlider(Request $request)
     {
+        try{
         if(!$request->isMethod('post') || !$request->ajax()){
             throw new Exception("Http Request not allowed.", 1); 
         }
@@ -73,51 +74,54 @@ class PosterController extends Controller
             }
         }
          
-        return response()->json([
-            'success'  => 'Slider Added successfully.'
-           ]);
+        return response()->json(['errorStatus' => false, 'slider_data' => $slider_data, 'message' => 'Slider Updated Successfully']);
+        }catch(Exception $e){
+            return response()->json(['errorStatus' => true, 'message' => $e->getMessage()]);
+        }
     }
     public function editslider(Request $request,$id){  
         $slide_data = Slider::find($id);
         return response(['slide_data' => $slide_data]);
     }
 
-    public function updateFrontSlider(Request $request, $id)
+    public function updateFrontSlider(Request $request)
     {
-        if(!$request->isMethod('post') || !$request->ajax()){
-            throw new Exception("Http Request not allowed.", 1); 
-        }
-        $input = $request->all();//dd($request->all());
-        $validator = Validator::make($input,[
-            "file" => "nullable|mimes:jpeg,jpg,png",
-            "title" => "required",
-            "sort_order" => "required|numeric",
-            "slider_id" => 	'required',
-        ],
-        [
-            'file.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
-            'title.required' => 'The title must be required.',
-            'sort_order.required' => 'The sort order must be required.',
-        ]);
-        if($validator->fails()){
-            throw new Exception(implode('<br>', $validator->errors()->all()), 1);
-        }
-        $input = $request->all();
-        $slider_folder = 'front_slider';
-        $data = array();
-        $data =  $request->only('title','sort_order');
-        $bannerData = Slider::find($id);
-        if(!empty($input['file'])){
-            $banner_name = $this->addmultipleSlider($input['file'],$slider_folder);
-            if($banner_name['status'] == false){ 
-                throw new exception("Error occurred while upload file!"); 
+        try{
+            if(!$request->isMethod('post') || !$request->ajax()){
+                throw new Exception("Http Request not allowed.", 1); 
             }
-            $data['image'] = $banner_name['file'];
+            $input = $request->all();
+            $validator = Validator::make($input,[
+                "file" => "nullable|mimes:jpeg,jpg,png",
+                "title" => "required",
+                "sort_order" => "required|numeric",
+                "slider_id" => 	'required',
+            ],
+            [
+                'file.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
+                'title.required' => 'The title must be required.',
+                'sort_order.required' => 'The sort order must be required.',
+            ]);
+            if($validator->fails()){
+                throw new Exception(implode('<br>', $validator->errors()->all()), 1);
+            }
+            $input = $request->all();
+            $slider_folder = 'front_slider';
+            $data = array();
+            $data =  $request->only('title','sort_order');
+            $sliderData = Slider::find($input['slider_id']);
+            if(!empty($input['file'])){
+                $slider_name = $this->addmultipleSlider($input['file'],$slider_folder);
+                if($slider_name['status'] == false){ 
+                    throw new exception("Error occurred while upload file!"); 
+                }
+                $data['image'] = $slider_name['file'];
+            }
+            $sliderData->fill($data)->save();
+            return response()->json(['errorStatus' => false, 'sliderdata' => $sliderData, 'message' => 'Slider Updated Successfully']);
+        }catch(Exception $e){
+            return response()->json(['errorStatus' => true, 'message' => $e->getMessage()]);
         }
-        $bannerData->fill($data)->save();
-        return response()->json([
-            'success'  => 'Slider Updated successfully.'
-        ]);
 
     }
     public function delete(Request $request)

@@ -22,23 +22,6 @@
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30 ">
 				<div class="pd-20 card-box height-100-p">
 					<h5 class="text-center h5 mb-10">Edit Exchange</h5>
-					@if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                    @endif
-                    @if(Session::has("success"))
-                            <div class="alert alert-success">
-                                {{Session::get("success")}}
-                            </div>
-                    @elseif(Session::has("failed"))
-                            {{Session::get("failed")}}
-                    @endif
-                	
 					{{ Form::open(array('url' => ['update-exchange'],'autocomplete'=>'off','id'=>'update-exchange','enctype'=>'multipart/form-data')) }}
 							{{ Form::hidden('id',$up_exchange_data->id) }}
 						<div class="form-group">

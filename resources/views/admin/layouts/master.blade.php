@@ -19,12 +19,14 @@
 		<!-- <link rel="stylesheet" href="{{asset('admin/styles/font-awesome.min.css')}}"> -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{asset('admin/styles/bootstrap.min.css')}}"> 
+		<link rel="stylesheet" href="{{asset('admin/styles/toastr.css')}}"> 
 	</head>
 	<body>	
-	<script src="{{asset('admin/vendors/scripts/jquery-3.2.1.min.js')}}"></script>
+	<!-- <script src="{{asset('admin/vendors/scripts/jquery-3.2.1.min.js')}}"></script> -->
 		@include('admin.includes.header')
 		@include('admin.includes.sidebar')		
 		<div class="main-container">
+			@include('admin.includes.flash-messages')
 			@yield('content')
 		</div>
 				
@@ -34,5 +36,8 @@
   		<script src="{{asset('js/popper.min.js')}}"></script>
 		<script src="{{asset('js/jquery.validate.min.js')}}"></script>
 		<script src="{{asset('admin/vendors/scripts/custome.js')}}"></script>
+		<script src="{{asset('admin/vendors/scripts/jquery.validate.min.js')}}"></script>
+		<script src="{{asset('admin/vendors/scripts/additional-methods.min.js')}}"></script>
+		<script src="{{asset('admin/vendors/scripts/toastr.min.js')}}"></script>
 	</body>
 </html>

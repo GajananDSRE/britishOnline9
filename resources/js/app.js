@@ -3,8 +3,10 @@ require('./bootstrap');
 window.Vue = require('vue');
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Toasted from 'vue-toasted';
 
 Vue.use(Vuex);
+Vue.use(Toasted, { position: 'top-center', duration: 4000, singleton: true });
 
 Vue.prototype.$user_base_url = window.location.origin;
 

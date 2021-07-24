@@ -30,22 +30,7 @@
 						<div class="login-title">
 							<h2 class="text-center text-primary">Login For Admin</h2>
 						</div>
-						@if ($errors->any())
-							<div class="alert alert-danger">
-								<ul>
-									@foreach ($errors->all() as $error)
-										<li>{{ $error }}</li>
-									@endforeach
-								</ul>
-							</div>
-						@endif
-						@if(Session::has("success"))
-							<div class="alert alert-success">
-								{{Session::get("success")}}
-							</div>
-						@elseif(Session::has("failed"))
-							{{Session::get("failed")}}
-						@endif
+						@include('admin.includes.flash-messages')
 						{{ Form::open(array('url' => 'login','autocomplete'=>'off','id'=>'signIn')) }}
 							<div class="input-group custom">
 								{{ Form::text('userid','',['class'=> 'form-control form-control-lg','placeholder'=>'Username'])}}
